@@ -189,9 +189,21 @@ MTR 原版有「晚点追赶」机制：列车晚点时把目标速度乘上 `de
 
 ## 三、安装
 
-1. 前置：Minecraft 1.20.1 + Fabric Loader + Fabric API + **MTR 4.0.4**
-2. 把 `build/libs/MTR4Advanced-1.0.0.jar` 丢进 `mods` 文件夹
-3. 客户端和服务端都要装（限速计算在服务端，设置界面在客户端）
+1. 前置：**Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4** 之一 + 对应加载器（Fabric 或 Forge）+ **MTR 4.0.4**（选对应 MC 版本、对应加载器的构建）
+2. 挑对 jar：`MTR4Advanced-1.0.1-<MC版本><加载器>.jar`
+   （例：`MTR4Advanced-1.0.1-1.20.1Fabric.jar`）丢进 `mods` 文件夹
+3. 客户端和服务端都要装，**且两边用同一份**（限速计算在服务端，设置界面在客户端）
+
+| MC 版本 | Fabric | Forge |
+| --- | --- | --- |
+| 1.18.2 | `MTR4Advanced-1.0.1-1.18.2Fabric.jar` | `MTR4Advanced-1.0.1-1.18.2Forge.jar` |
+| 1.19.2 | `MTR4Advanced-1.0.1-1.19.2Fabric.jar` | `MTR4Advanced-1.0.1-1.19.2Forge.jar` |
+| 1.19.4 | `MTR4Advanced-1.0.1-1.19.4Fabric.jar` | `MTR4Advanced-1.0.1-1.19.4Forge.jar` |
+| 1.20.1 | `MTR4Advanced-1.0.1-1.20.1Fabric.jar` | `MTR4Advanced-1.0.1-1.20.1Forge.jar` |
+| 1.20.4 | `MTR4Advanced-1.0.1-1.20.4Fabric.jar` | `MTR4Advanced-1.0.1-1.20.4Forge.jar` |
+
+> 装错版本（例如把 1.20.1 的 jar 丢进 1.20.4）会被加载器的依赖校验直接拒绝启动，不会静默出错。
+> Forge 版的 mod id 是 `mtr4advanced`（Forge 的 modId 不允许连字符），Fabric 版是 `mtr4-advanced`。
 
 ---
 
@@ -247,8 +259,13 @@ apply-vehicle-length-to-time-segments=true
 ## 五、自己构建
 
 ```bash
-python build.py                      # 自动找上级目录的 MTR jar
+# 日常开发：只构建一个目标（自动找上级目录 / libs 里的 MTR jar）
+python build.py
 MTR_JAR=/path/to/MTR.jar python build.py
+
+# 发布：一次产出 5 个 MC 版本 × Fabric/Forge 共 10 个 jar
+#   先把各版本的 MTR jar 放进 _mtr_jars/，命名 MTR-<loader>-4.0.4+<MC>.jar
+python build_release.py --jars _mtr_jars --out ../releases
 ```
 
 只需要 JDK 17+，不需要 Gradle / Fabric Loom / 联网。
@@ -344,15 +361,38 @@ src/main/java/cn/nansai/mtrspeed/
 
 ## 九、部署
 
-产物拷到 `mods/MTR4Advanced-1.0.0.jar` 即可（客户端 + 服务端都要装）。
+产物拷到 `mods/` 即可（客户端 + 服务端都要装，且版本与加载器要对上）。
 
 ```bash
-python build.py                                   # 产出 build/libs/MTR4Advanced-1.0.0.jar
+# 单目标（开发）
+python build.py                                   # 产出 build/libs/MTR4Advanced-1.0.1.jar
 python tools/check_targets.py                     # 校验注入点，必须 ALL OK
-cp build/libs/MTR4Advanced-1.0.0.jar "<游戏目录>/mods/"
+cp build/libs/MTR4Advanced-1.0.1.jar "<游戏目录>/mods/"
+
+# 全矩阵（发布）：10 个目标分别编译、分别校验注入点
+python build_release.py --jars _mtr_jars --out ../releases
 ```
 
-`build.py` **不会自动部署** —— 改完记得手动拷，否则游戏里跑的还是旧版。
+输出（`releases/`）：
+
+```
+MTR4Advanced-1.0.1-1.18.2Fabric.jar   MTR4Advanced-1.0.1-1.18.2Forge.jar
+MTR4Advanced-1.0.1-1.19.2Fabric.jar   MTR4Advanced-1.0.1-1.19.2Forge.jar
+MTR4Advanced-1.0.1-1.19.4Fabric.jar   MTR4Advanced-1.0.1-1.19.4Forge.jar
+MTR4Advanced-1.0.1-1.20.1Fabric.jar   MTR4Advanced-1.0.1-1.20.1Forge.jar
+MTR4Advanced-1.0.1-1.20.4Fabric.jar   MTR4Advanced-1.0.1-1.20.4Forge.jar
+```
+
+两个脚本都 **不会自动部署** —— 改完记得手动拷，否则游戏里跑的还是旧版。
+
+### 平台差异（`build_release.py` 会自动处理）
+
+| | Fabric | Forge |
+| --- | --- | --- |
+| 元数据 | `fabric.mod.json` | `META-INF/mods.toml` |
+| mixin 注册 | `fabric.mod.json` 的 `mixins` 数组 | jar **MANIFEST** 的 `MixinConfigs` 属性（Forge 靠它加载 mixin 配置） |
+| mod id | `mtr4-advanced` | `mtr4advanced`（Forge 的 modId 不允许连字符） |
+| 映射层 | Minecraft 类型藏在占位符 `class_339` 后面 | 直接用真实类名（`net.minecraft.client.gui.components.AbstractWidget`），所以编译期 stub 必须带正确继承层级 |
 
 ## 十、已知限制
 
@@ -386,7 +426,6 @@ cp build/libs/MTR4Advanced-1.0.0.jar "<游戏目录>/mods/"
 | [wiki/已知限制与路线图.md](wiki/已知限制与路线图.md) | 明确不做 / 记录在案 / 行为边界 / 路线图 |
 | [wiki/变更日志.md](wiki/变更日志.md) | 1.0.0、改名记录、四轮审查时间线 |
 
-`wiki/` 目录既可以直接在仓库里浏览，也可以整体拷进 GitHub Wiki（`<repo>.wiki.git`）——
-做法见 [wiki/README.md](wiki/README.md)。
+`wiki/` 目录既可以直接在仓库里浏览，也可以整体拷进 GitHub Wiki（`<repo>.wiki.git`）。
 
 许可：**MIT**，见 [LICENSE](LICENSE)（与 `fabric.mod.json` 的 `license` 字段一致）。

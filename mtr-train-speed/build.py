@@ -16,7 +16,7 @@ MTR4 Advanced —— 离线构建脚本（Windows / Linux 通用）
     python build.py                       # 自动找上级目录里的 MTR jar
     MTR_JAR=路径 python build.py          # 手动指定 MTR jar
 产物：
-    build/libs/MTR4Advanced-1.0.0.jar
+    build/libs/MTR4Advanced-1.0.1.jar
 """
 
 import glob
@@ -37,7 +37,7 @@ BUILD = os.path.join(ROOT, "build")
 STUB_SRC = os.path.join(BUILD, "stubs", "src")
 STUB_OUT = os.path.join(BUILD, "stubs", "classes")
 CLASSES = os.path.join(BUILD, "classes")
-OUT_JAR = os.path.join(BUILD, "libs", "MTR4Advanced-1.0.0.jar")
+OUT_JAR = os.path.join(BUILD, "libs", "MTR4Advanced-1.0.1.jar")
 
 
 def find_mtr_jar():
@@ -150,7 +150,9 @@ def main():
                 if fqn == "net.minecraft.class_339":
                     f.write("package %s;\npublic class %s {}\n" % (package, simple))
                 else:
-                    f.write("package %s;\npublic class %s extends class_339 {}\n" % (package, simple))
+                    # 必须写全限定名：stub 可能落在 net.minecraft.client.gui.* 这类子包里，
+                    # 光写简单名 class_339 在别的包中解析不到（Forge 1.20.4 的映射层就是这样）
+                    f.write("package %s;\npublic class %s extends net.minecraft.class_339 {}\n" % (package, simple))
         stub_result = javac(STUB_OUT, collect_sources(STUB_SRC), "")
         if stub_result.returncode != 0:
             sys.stdout.write(stub_result.stdout)
