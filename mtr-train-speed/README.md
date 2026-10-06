@@ -16,7 +16,8 @@ MTR 4.0.4（Minecraft 1.20.1 / Fabric）的附属模组。当前包含：
 
 ---
 
-> 📖 **文档（[`wiki/`](wiki/Home.md)）**：[快速开始](wiki/快速开始.md) ·
+> 📖 **文档（[`wiki/`](wiki/Home.md)）**：[项目介绍](wiki/项目介绍.md) ·
+> [快速开始](wiki/快速开始.md) ·
 > [工作原理](wiki/工作原理.md) · [配置参考](wiki/配置参考.md) · [侧线界面](wiki/侧线界面.md) ·
 > [构建与工具](wiki/构建与工具.md) · [开发指南](wiki/开发指南.md) · [常见问题](wiki/常见问题.md) ·
 > [已知限制与路线图](wiki/已知限制与路线图.md) · [变更日志](wiki/变更日志.md)
@@ -373,6 +374,7 @@ cp build/libs/MTR4Advanced-1.0.0.jar "<游戏目录>/mods/"
 
 | 文档 | 内容 |
 | --- | --- |
+| [wiki/项目介绍.md](wiki/项目介绍.md) | 项目介绍：解决什么问题、技术看点、适用人群、English Introduction |
 | [wiki/Home.md](wiki/Home.md) | 文档入口：特性总览、30 秒上手、与原版差异一览 |
 | [wiki/快速开始.md](wiki/快速开始.md) | 安装、验证生效、从旧版迁移、卸载、上架前仓库卫生 |
 | [wiki/工作原理.md](wiki/工作原理.md) | 占用区间、两个 `@Redirect`、公式推导、时刻表推算、数据流 |
