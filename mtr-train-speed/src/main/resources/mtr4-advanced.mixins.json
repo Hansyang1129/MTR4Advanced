@@ -1,0 +1,21 @@
+{
+  "required": false,
+  "package": "cn.nansai.mtrspeed.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "mixins": [
+    "SidingMixin",
+    "SidingSchemaMixin",
+    "SidingTimeSegmentsMixin",
+    "VehicleSpeedMixin",
+    "access.VehicleAccess",
+    "access.VehicleSchemaAccess"
+  ],
+  "client": [
+    "client.SidingScreenMixin",
+    "access.SavedRailScreenBaseAccess"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

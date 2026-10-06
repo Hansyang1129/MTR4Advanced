@@ -1,0 +1,4 @@
+MTR jar : D:\wrkspce\mtrtrainspeed\[A]MTR-fabric-4.0.4.jar
+mixin   : D:\wrkspce\mtrtrainspeed\mtr-train-speed\libs\mixin-0.8.7.jar
+compilation ok (round 3, 7 stub(s))
+built: D:\wrkspce\mtrtrainspeed\mtr-train-speed\build\libs\MTR4Advanced-1.0.0.jar

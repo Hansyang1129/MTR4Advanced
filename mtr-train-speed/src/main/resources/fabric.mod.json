@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "mtr4-advanced",
+  "version": "1.0.0",
+  "name": "MTR4 Advanced",
+  "description": "MTR 4.0.4 附属模组：现实的列车限速控制（提速由车尾通过控制、减速由车头前瞻制动）、侧线「列车最高时速」上限，以及按列车长度推算的侧线时刻表。",
+  "authors": [
+    "nansai"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {},
+  "mixins": [
+    "mtr4-advanced.mixins.json"
+  ],
+  "depends": {
+    "minecraft": "1.20.x",
+    "fabricloader": ">=0.14.0",
+    "mtr": ">=4.0.4"
+  },
+  "breaks": {
+    "mtr": ">=4.0.5 <4.0.6"
+  }
+}

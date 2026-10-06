@@ -1,0 +1,20 @@
+  OK    cn.nansai.mtrspeed.mixin.SidingMixin -> org.mtr.core.data.Siding#updateData
+  OK    cn.nansai.mtrspeed.mixin.SidingSchemaMixin -> org.mtr.core.generated.data.SidingSchema#serializeData
+  OK    cn.nansai.mtrspeed.mixin.SidingTimeSegmentsMixin -> org.mtr.core.data.Siding#generatePathDistancesAndTimeSegments
+  OK    cn.nansai.mtrspeed.mixin.SidingTimeSegmentsMixin -> org.mtr.core.data.Siding#getUpcomingSlowerSpeed(Lorg/mtr/libraries/it/unimi/dsi/fastutil/objects/ObjectList;IDDD)
+  OK    璋冪敤鐐?1 澶勶紙org.mtr.core.data.Siding#getUpcomingSlowerSpeed锛?
+  OK    cn.nansai.mtrspeed.mixin.SidingTimeSegmentsMixin -> org.mtr.core.data.Siding#generatePathDistancesAndTimeSegments
+  OK    cn.nansai.mtrspeed.mixin.SidingTimeSegmentsMixin -> org.mtr.core.data.PathData#getSpeedLimitMetersPerMillisecond()
+  OK    璋冪敤鐐?1 澶勶紙org.mtr.core.data.PathData#getSpeedLimitMetersPerMillisecond锛?
+  OK    cn.nansai.mtrspeed.mixin.VehicleSpeedMixin -> org.mtr.core.data.Vehicle#simulateMoving
+  OK    cn.nansai.mtrspeed.mixin.VehicleSpeedMixin -> org.mtr.core.data.PathData#getSpeedLimitMetersPerMillisecond()
+  OK    璋冪敤鐐?1 澶勶紙org.mtr.core.data.PathData#getSpeedLimitMetersPerMillisecond锛?
+  OK    cn.nansai.mtrspeed.mixin.VehicleSpeedMixin -> org.mtr.core.data.Vehicle#simulateMoving
+  OK    cn.nansai.mtrspeed.mixin.VehicleSpeedMixin -> org.mtr.core.data.Siding#getUpcomingSlowerSpeed(Lorg/mtr/libraries/it/unimi/dsi/fastutil/objects/ObjectList;IDDD)
+  OK    璋冪敤鐐?1 澶勶紙org.mtr.core.data.Siding#getUpcomingSlowerSpeed锛?
+  OK    cn.nansai.mtrspeed.mixin.client.SidingScreenMixin -> org.mtr.mod.screen.SidingScreen#init2
+  OK    cn.nansai.mtrspeed.mixin.client.SidingScreenMixin -> org.mtr.mod.screen.SidingScreen#tick2
+  OK    cn.nansai.mtrspeed.mixin.client.SidingScreenMixin -> org.mtr.mod.screen.SidingScreen#render
+  OK    cn.nansai.mtrspeed.mixin.client.SidingScreenMixin -> org.mtr.mod.screen.SidingScreen#onClose2
+
+ALL OK (18 椤规鏌?
