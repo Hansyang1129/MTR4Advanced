@@ -7,7 +7,11 @@
 Minecraft 1.20.1 · Fabric · 客户端 + 服务端 · MIT
 
 ## 零、声明
+
 该项目由AI完成（DeepSeek-V4-Flash & DeepSeek-V4.1-Flash)
+
+如果您需要其他MC版本适配，请开新issue，我会尽可能在一周内答复
+
 ---
 
 ## 一、它解决什么问题
