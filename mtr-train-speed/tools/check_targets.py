@@ -25,14 +25,14 @@ DEFAULT_JAR = r"D:\wrkspce\mtrtrainspeed\[A]MTR-fabric-4.0.4.jar"
 
 # mixin 类 -> 目标类（javap -v 的注解输出里 Mixin#value 不好解析，这里直接列出来）
 MIXIN_TARGETS = {
-    "cn.nansai.mtrspeed.mixin.SidingMixin": "org.mtr.core.data.Siding",
-    "cn.nansai.mtrspeed.mixin.SidingSchemaMixin": "org.mtr.core.generated.data.SidingSchema",
-    "cn.nansai.mtrspeed.mixin.SidingTimeSegmentsMixin": "org.mtr.core.data.Siding",
-    "cn.nansai.mtrspeed.mixin.VehicleSpeedMixin": "org.mtr.core.data.Vehicle",
-    "cn.nansai.mtrspeed.mixin.client.SidingScreenMixin": "org.mtr.mod.screen.SidingScreen",
-    "cn.nansai.mtrspeed.mixin.access.VehicleAccess": "org.mtr.core.data.Vehicle",
-    "cn.nansai.mtrspeed.mixin.access.VehicleSchemaAccess": "org.mtr.core.generated.data.VehicleSchema",
-    "cn.nansai.mtrspeed.mixin.access.SavedRailScreenBaseAccess": "org.mtr.mod.screen.SavedRailScreenBase",
+    "cn.nansai.mtr4advanced.mixin.SidingMixin": "org.mtr.core.data.Siding",
+    "cn.nansai.mtr4advanced.mixin.SidingSchemaMixin": "org.mtr.core.generated.data.SidingSchema",
+    "cn.nansai.mtr4advanced.mixin.SidingTimeSegmentsMixin": "org.mtr.core.data.Siding",
+    "cn.nansai.mtr4advanced.mixin.VehicleSpeedMixin": "org.mtr.core.data.Vehicle",
+    "cn.nansai.mtr4advanced.mixin.client.SidingScreenMixin": "org.mtr.mod.screen.SidingScreen",
+    "cn.nansai.mtr4advanced.mixin.access.VehicleAccess": "org.mtr.core.data.Vehicle",
+    "cn.nansai.mtr4advanced.mixin.access.VehicleSchemaAccess": "org.mtr.core.generated.data.VehicleSchema",
+    "cn.nansai.mtr4advanced.mixin.access.SavedRailScreenBaseAccess": "org.mtr.mod.screen.SavedRailScreenBase",
 }
 
 sig_cache = {}

@@ -16,7 +16,7 @@ MTR4 Advanced —— 离线构建脚本（Windows / Linux 通用）
     python build.py                       # 自动找上级目录里的 MTR jar
     MTR_JAR=路径 python build.py          # 手动指定 MTR jar
 产物：
-    build/libs/MTR4Advanced-1.0.1.jar
+    build/libs/MTR4Advanced-1.0.2.jar
 """
 
 import glob
@@ -37,7 +37,7 @@ BUILD = os.path.join(ROOT, "build")
 STUB_SRC = os.path.join(BUILD, "stubs", "src")
 STUB_OUT = os.path.join(BUILD, "stubs", "classes")
 CLASSES = os.path.join(BUILD, "classes")
-OUT_JAR = os.path.join(BUILD, "libs", "MTR4Advanced-1.0.1.jar")
+OUT_JAR = os.path.join(BUILD, "libs", "MTR4Advanced-1.0.2.jar")
 
 
 def find_mtr_jar():

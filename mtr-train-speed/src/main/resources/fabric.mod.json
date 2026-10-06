@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "mtr4-advanced",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "name": "MTR4 Advanced",
   "description": "MTR 4.0.4 附属模组：现实的列车限速控制（提速由车尾通过控制、减速由车头前瞻制动）、侧线「列车最高时速」上限，以及按列车长度推算的侧线时刻表。",
   "authors": [

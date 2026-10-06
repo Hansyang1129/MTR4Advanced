@@ -1,6 +1,6 @@
 {
   "required": false,
-  "package": "cn.nansai.mtrspeed.mixin",
+  "package": "cn.nansai.mtr4advanced.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [

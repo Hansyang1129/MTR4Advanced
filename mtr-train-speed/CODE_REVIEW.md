@@ -1,5 +1,9 @@
 # MTR4 Advanced 代码审查
 
+> **标识对照（2026-10-06 起）**：本文写于包名/前缀改名前，文中的 `cn.nansai.mtrspeed` 现为
+> `cn.nansai.mtr4advanced`，`mtrspeed$` 现为 `mtr4a$`，`MTRSPEED$` 现为 `MTR4A$`。
+> 除标识外，本文记录的结论与证据均未改动。
+
 审查范围：`src/main/java/cn/nansai/mtrspeed/**`（9 个类）、`build.py`、`tools/check_targets.py`、
 `fabric.mod.json`、`mtr4-advanced.mixins.json`。
 对照物：`[A]MTR-fabric-4.0.4.jar` 的字节码（javap 反汇编）。

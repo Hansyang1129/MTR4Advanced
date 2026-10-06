@@ -8,9 +8,9 @@
     python build_release.py --only 1.20.1:fabric # 只构建一个
     python build_release.py --jars <MTR jar 目录> --out <输出目录>
 
-产物命名（与 1.0.0 的发布习惯一致）：
-    MTR4Advanced-<版本>-<MC版本><Fabric|Forge>.jar
-    例：MTR4Advanced-1.0.1-1.20.1Fabric.jar
+产物结构：按模组版本分文件夹（一个版本一个文件夹）
+    <输出目录>/1.0.2/MTR4Advanced-1.0.2-1.20.1Fabric.jar
+    <输出目录>/1.0.2/MTR4Advanced-1.0.2-1.20.4Forge.jar
 
 与 build.py 的区别：
   * build.py  = 日常开发用，只针对一个 MTR jar（默认 1.20.1 Fabric）
@@ -36,7 +36,7 @@ SRC = os.path.join(ROOT, "src", "main", "java")
 RES = os.path.join(ROOT, "src", "main", "resources")
 BUILD = os.path.join(ROOT, "build", "release")
 
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 MOD_NAME = "MTR4 Advanced"
 MOD_AUTHOR = "nansai"
 MOD_DESCRIPTION = "MTR 附属模组：现实的列车限速控制（提速由车尾通过控制、减速由车头前瞻制动）、侧线「列车最高时速」上限，以及按列车长度推算的侧线时刻表。"
@@ -303,7 +303,10 @@ def main():
             results.append((mc, loader, "CHECK-FAIL", None))
             continue
 
-        out_jar = os.path.join(args.out, "MTR4Advanced-%s-%s%s.jar" % (VERSION, mc, loader.capitalize()))
+        # 按模组版本分文件夹：releases/1.0.2/MTR4Advanced-1.0.2-1.20.1Fabric.jar
+        target_dir = os.path.join(args.out, VERSION)
+        os.makedirs(target_dir, exist_ok=True)
+        out_jar = os.path.join(target_dir, "MTR4Advanced-%s-%s%s.jar" % (VERSION, mc, loader.capitalize()))
         build_jar(classes, res_dir, out_jar, loader)
         print("[%s] OK  编译 %d 轮 / %d stub  校验 18/18  -> %s" % (label, rounds, stubs, os.path.basename(out_jar)))
         results.append((mc, loader, "OK", out_jar))

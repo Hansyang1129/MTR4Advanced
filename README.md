@@ -4,7 +4,10 @@
 > 它把列车的限速行为从「车头质点模型」改造成现实里的规则 ——
 > **整列车通过才允许提速，车头一到就开始制动** —— 并给每条侧线一个可调的列车最高时速上限。
 
-Minecraft 1.20.1 · Fabric · 客户端 + 服务端 · MIT
+Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4 · Fabric & Forge · 客户端 + 服务端 · MIT
+
+> 📖 **完整文档在 [`mtr-train-speed/wiki/`](mtr-train-speed/wiki/Home.md)**：快速开始 · 工作原理 · 配置参考 · 侧线界面 · 构建与工具 · 开发指南 · 常见问题 · 已知限制与路线图 · 变更日志
+> 📦 **下载**：[`releases/1.0.2/`](releases/1.0.2/)（5 个 MC 版本 × Fabric/Forge 共 10 个 jar）
 
 ## 零、声明
 
@@ -114,16 +117,17 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
 
 - 版本 **1.0.x**，只针对 **MTR 4.0.4** 的字节码做过校验；换版本必须重跑注入点校验。
 - **手动驾驶模式下三项功能都不参与** —— 这是明确取舍（手动是给人开的，硬夹目标速度手感很怪），
-  不是漏做。详见 [已知限制与路线图](已知限制与路线图.md#1-手动驾驶完全不生效)。
+  不是漏做。详见 [已知限制与路线图](mtr-train-speed/wiki/已知限制与路线图.md#1-手动驾驶完全不生效)。
 - 输入框只能填整数、界面在 GUI scale 很大时会溢出、配置没有热重载 —— 都记录在案，
-  见 [已知限制与路线图](已知限制与路线图.md)。
+  见 [已知限制与路线图](mtr-train-speed/wiki/已知限制与路线图.md)。
 - 本项目**不附带 MTR 本体**，也不附带任何 Minecraft 资源。
 
 ---
 
 ## 六、English Introduction
 
-> **MTR4 Advanced** is an addon for **Minecraft Transit Railway 4.0.4** (Minecraft 1.20.1 / Fabric)
+> **MTR4 Advanced** is an addon for **Minecraft Transit Railway 4.0.4** on Minecraft
+> **1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4** (Fabric and Forge)
 > that makes train speed limits behave the way they do in reality.
 
 **What it changes**
@@ -157,10 +161,8 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
 
 ---
 
----
-
 ## 相关页面
 
-- [快速开始](快速开始.md) —— 安装与验证
-- [工作原理](工作原理.md) —— 上面每一条的技术推导
-- [已知限制与路线图](已知限制与路线图.md) —— 不做什么、以后做什么
+- [快速开始](mtr-train-speed/wiki/快速开始.md) —— 安装与验证
+- [工作原理](mtr-train-speed/wiki/工作原理.md) —— 上面每一条的技术推导
+- [已知限制与路线图](mtr-train-speed/wiki/已知限制与路线图.md) —— 不做什么、以后做什么

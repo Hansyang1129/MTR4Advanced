@@ -5,7 +5,7 @@
 
 | 项目 | 值 |
 | --- | --- |
-| 版本 | `1.0.1` |
+| 版本 | `1.0.2` |
 | 支持的 MC 版本 | 1.18.2 · 1.19.2 · 1.19.4 · 1.20.1 · 1.20.4 |
 | 支持的加载器 | Fabric · Forge（每个 MC 版本各一份） |
 | mod id | Fabric `mtr4-advanced` / Forge `mtr4advanced`（Forge 的 modId 不允许连字符） |
@@ -13,7 +13,7 @@
 | 前置 | 对应 MC 版本 + 加载器 + **MTR 4.0.4**（同版本同加载器） |
 | 硬冲突 | MTR `>=4.0.5 <4.0.6`（装了直接拒绝启动） |
 | 许可 | MIT |
-| 发布产物 | `releases/MTR4Advanced-1.0.1-<MC版本><Fabric\|Forge>.jar` |
+| 发布产物 | `releases/1.0.2/MTR4Advanced-1.0.2-<MC版本><Fabric\|Forge>.jar`（一个模组版本一个文件夹） |
 
 ---
 
@@ -44,7 +44,7 @@ python build_release.py --jars _mtr_jars --out ../releases   # 10 目标全矩�
 python tools/check_targets.py         # 校验 Mixin 注入点，必须 ALL OK
 
 # 2) 挑对版本，客户端和服务端各拷一份
-cp ../releases/MTR4Advanced-1.0.1-1.20.1Fabric.jar <游戏目录>/mods/
+cp ../releases/MTR4Advanced-1.0.2-1.20.1Fabric.jar <游戏目录>/mods/
 ```
 
 进游戏后打开任意侧线的编辑界面，最下面会多出四行：

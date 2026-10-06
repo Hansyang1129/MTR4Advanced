@@ -12,7 +12,8 @@ MTR 4.0.4（Minecraft 1.20.1 / Fabric）的附属模组。当前包含：
 > - 旧的 `mods/mtr-train-speed-1.0.0.jar` **必须删掉**，否则两份 mixin 会对同一目标重复注入
 > - 配置文件改为 `config/mtr4-advanced.properties`，旧文件里的字段需手工搬过去
 > - 产物名改为 `build/libs/MTR4Advanced-1.0.0.jar`
-> - Java 包名 `cn.nansai.mtrspeed` 与 mixin 内部的 `mtrspeed$` 前缀**保持不变**（纯内部标识）
+> - Java 包名与 mixin 内部前缀当时**保持不变**（纯内部标识），已在 **1.0.2** 一并统一为
+>   `cn.nansai.mtr4advanced` 与 `mtr4a$`
 
 ---
 
@@ -86,7 +87,7 @@ request.addSiding(siding);                              // 自己
 int pending = 1;
 for (Siding other : depot.savedRails) {
     ...; request.addSiding(other);
-    if (++pending >= MTRSPEED$BATCH_SIZE) {             // 满 40 条发一包
+    if (++pending >= MTR4A$BATCH_SIZE) {             // 满 40 条发一包
         InitClient.REGISTRY_CLIENT.sendPacketToServer(new PacketUpdateData(request));
         request = new UpdateDataRequest(MinecraftClientData.getDashboardInstance());
         pending = 0;
@@ -100,7 +101,7 @@ if (pending > 0) {
 **为什么要分批**：一条 `Siding` 序列化出来含 `pathDistances` / `timeSegments` 等数组，
 体积随线路长度增长，而 Fabric 自定义 payload 有单包上限（1 MiB）。
 不分批的话大车场一旦超限，**整个包会被拒，连玩家自己这条都存不进去**。
-所以按 **`MTRSPEED$BATCH_SIZE = 40`** 条一批发送（`pending` 从 1 起算，含当前这条侧线）。
+所以按 **`MTR4A$BATCH_SIZE = 40`** 条一批发送（`pending` 从 1 起算，含当前这条侧线）。
 
 #### 点完到底算不算改成了
 
@@ -190,17 +191,18 @@ MTR 原版有「晚点追赶」机制：列车晚点时把目标速度乘上 `de
 ## 三、安装
 
 1. 前置：**Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4** 之一 + 对应加载器（Fabric 或 Forge）+ **MTR 4.0.4**（选对应 MC 版本、对应加载器的构建）
-2. 挑对 jar：`MTR4Advanced-1.0.1-<MC版本><加载器>.jar`
-   （例：`MTR4Advanced-1.0.1-1.20.1Fabric.jar`）丢进 `mods` 文件夹
+2. 挑对 jar：**每个模组版本一个文件夹**（`releases/` 在仓库根，即本目录的上一级），形如
+   `../releases/1.0.2/MTR4Advanced-1.0.2-<MC版本><加载器>.jar`
+   （例：`../releases/1.0.2/MTR4Advanced-1.0.2-1.20.1Fabric.jar`）丢进 `mods` 文件夹
 3. 客户端和服务端都要装，**且两边用同一份**（限速计算在服务端，设置界面在客户端）
 
 | MC 版本 | Fabric | Forge |
 | --- | --- | --- |
-| 1.18.2 | `MTR4Advanced-1.0.1-1.18.2Fabric.jar` | `MTR4Advanced-1.0.1-1.18.2Forge.jar` |
-| 1.19.2 | `MTR4Advanced-1.0.1-1.19.2Fabric.jar` | `MTR4Advanced-1.0.1-1.19.2Forge.jar` |
-| 1.19.4 | `MTR4Advanced-1.0.1-1.19.4Fabric.jar` | `MTR4Advanced-1.0.1-1.19.4Forge.jar` |
-| 1.20.1 | `MTR4Advanced-1.0.1-1.20.1Fabric.jar` | `MTR4Advanced-1.0.1-1.20.1Forge.jar` |
-| 1.20.4 | `MTR4Advanced-1.0.1-1.20.4Fabric.jar` | `MTR4Advanced-1.0.1-1.20.4Forge.jar` |
+| 1.18.2 | `MTR4Advanced-1.0.2-1.18.2Fabric.jar` | `MTR4Advanced-1.0.2-1.18.2Forge.jar` |
+| 1.19.2 | `MTR4Advanced-1.0.2-1.19.2Fabric.jar` | `MTR4Advanced-1.0.2-1.19.2Forge.jar` |
+| 1.19.4 | `MTR4Advanced-1.0.2-1.19.4Fabric.jar` | `MTR4Advanced-1.0.2-1.19.4Forge.jar` |
+| 1.20.1 | `MTR4Advanced-1.0.2-1.20.1Fabric.jar` | `MTR4Advanced-1.0.2-1.20.1Forge.jar` |
+| 1.20.4 | `MTR4Advanced-1.0.2-1.20.4Fabric.jar` | `MTR4Advanced-1.0.2-1.20.4Forge.jar` |
 
 > 装错版本（例如把 1.20.1 的 jar 丢进 1.20.4）会被加载器的依赖校验直接拒绝启动，不会静默出错。
 > Forge 版的 mod id 是 `mtr4advanced`（Forge 的 modId 不允许连字符），Fabric 版是 `mtr4-advanced`。
@@ -298,10 +300,10 @@ src/main/java/cn/nansai/mtrspeed/
 ## 七、踩过的坑
 
 1. **普通类不能放进 mixin 包**
-   mixin 配置里 `package` 指向的包（`cn.nansai.mtrspeed.mixin.*`）下的类全都会被 Mixin 当 mixin 处理。
+   mixin 配置里 `package` 指向的包（`cn.nansai.mtr4advanced.mixin.*`）下的类全都会被 Mixin 当 mixin 处理。
    把纯接口放进去，运行时会崩：
    `IllegalClassLoadError: ... is in a defined mixin package ... and cannot be referenced directly`
-   → 接口放 `cn.nansai.mtrspeed.api`。
+   → 接口放 `cn.nansai.mtr4advanced.api`。
 
 2. **Mixin 不会为目标类生成父类方法的 override**
    想注入 `Siding#serializeData` 是不行的 —— 这个方法声明在 `SidingSchema` 上，Siding 只是继承，
@@ -332,7 +334,7 @@ src/main/java/cn/nansai/mtrspeed/
 | # | 问题 | 处理 |
 | --- | --- | --- |
 | N1 | `check_targets.py` 调用点提示把宿主类当成了方法所属类（打印成 `Vehicle#getSpeedLimitMetersPerMillisecond`） | 已改用 `owner`，现输出 `PathData#getSpeedLimitMetersPerMillisecond` |
-| N2 | README 同步示例还是单包写法 | 已换成 `MTRSPEED$BATCH_SIZE` 分批版 + 「为什么要分批」 |
+| N2 | README 同步示例还是单包写法 | 已换成 `MTR4A$BATCH_SIZE` 分批版 + 「为什么要分批」 |
 | N3 | `breaks` 区间 `<4.1.0` 过宽，会把将来修好问题的 4.0.6 一起拦死，也没法在 4.0.5 上做对照测试 | 收窄为 `">=4.0.5 <4.0.6"` |
 | N4 | 分批后存在「部分成功」中间状态，按钮只报总数 | 文案改为多包时显示「已复制到 N 条（分 X 包发送）」，如实反映（**第四轮又把「已复制」改成了「已提交」**，见下） |
 | N5 | `build.py` 里 `MTR` / `mtr` 两套 pattern 在 Windows 上等价 | 合并成一套 |
@@ -365,9 +367,9 @@ src/main/java/cn/nansai/mtrspeed/
 
 ```bash
 # 单目标（开发）
-python build.py                                   # 产出 build/libs/MTR4Advanced-1.0.1.jar
+python build.py                                   # 产出 build/libs/MTR4Advanced-1.0.2.jar
 python tools/check_targets.py                     # 校验注入点，必须 ALL OK
-cp build/libs/MTR4Advanced-1.0.1.jar "<游戏目录>/mods/"
+cp build/libs/MTR4Advanced-1.0.2.jar "<游戏目录>/mods/"
 
 # 全矩阵（发布）：10 个目标分别编译、分别校验注入点
 python build_release.py --jars _mtr_jars --out ../releases
@@ -376,11 +378,13 @@ python build_release.py --jars _mtr_jars --out ../releases
 输出（`releases/`）：
 
 ```
-MTR4Advanced-1.0.1-1.18.2Fabric.jar   MTR4Advanced-1.0.1-1.18.2Forge.jar
-MTR4Advanced-1.0.1-1.19.2Fabric.jar   MTR4Advanced-1.0.1-1.19.2Forge.jar
-MTR4Advanced-1.0.1-1.19.4Fabric.jar   MTR4Advanced-1.0.1-1.19.4Forge.jar
-MTR4Advanced-1.0.1-1.20.1Fabric.jar   MTR4Advanced-1.0.1-1.20.1Forge.jar
-MTR4Advanced-1.0.1-1.20.4Fabric.jar   MTR4Advanced-1.0.1-1.20.4Forge.jar
+../releases/
+└── 1.0.2/                                       ← 一个模组版本一个文件夹
+    ├── MTR4Advanced-1.0.2-1.18.2Fabric.jar      ← 5 个 MC 版本 × Fabric/Forge = 10 个 jar
+    ├── MTR4Advanced-1.0.2-1.18.2Forge.jar
+    ├── … （1.19.2 / 1.19.4 / 1.20.1 / 1.20.4 同理）
+    ├── README.md       本版本每个 jar 对应什么前置
+    └── SHA1SUMS.txt    本版本 10 个 jar 的 SHA-1
 ```
 
 两个脚本都 **不会自动部署** —— 改完记得手动拷，否则游戏里跑的还是旧版。
