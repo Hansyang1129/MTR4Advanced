@@ -5,7 +5,7 @@
 > **整列车通过才允许提速，车头一到就开始制动** —— 并给每条侧线一个可调的列车最高时速上限。
 
 Minecraft 1.20.1 · Fabric · 客户端 + 服务端 · MIT
-
+该项目由AI完成（DeepSeek-V4-Flash & DeepSeek-V4.1-Flash)
 ---
 
 ## 一、它解决什么问题
