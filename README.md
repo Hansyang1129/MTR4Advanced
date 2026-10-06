@@ -152,33 +152,6 @@ Requires Minecraft 1.20.1, Fabric Loader ≥ 0.14.0 and MTR 4.0.4.
 
 ---
 
-## 七、GitHub 仓库元数据建议
-
-**About（仓库右上角那句话，建议填英文 + 中文关键词）**
-
-```
-An MTR 4.0.4 addon (MC 1.20.1/Fabric): realistic speed limits — acceleration released by the tail, braking led by the head, per-siding max speed, vehicle-length-aware schedules.
-```
-
-**Topics**
-
-```
-minecraft  fabric  minecraft-mod  mtr  minecraft-transit-railway  fabricmc  mixin  java  addon  minecraft-1-20-1
-```
-
-**Release 首段模板**
-
-```
-## MTR4 Advanced 1.0.0
-
-MTR 4.0.4 附属模组：车尾控制提速、车头前瞻制动、侧线「列车最高时速」、时刻表按车型长度推算。
-
-- 前置：Minecraft 1.20.1 + Fabric Loader ≥ 0.14.0 + MTR 4.0.4
-- 客户端与服务端都要装（行车计算在服务端，设置界面在客户端）
-- 产物：MTR4Advanced-1.0.0.jar
-- 完整说明见 wiki
-```
-
 ---
 
 ## 相关页面
