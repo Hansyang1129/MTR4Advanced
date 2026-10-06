@@ -106,13 +106,13 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
 | 被「列车永远晚点」折磨的服主 | 时刻表按车型长度推算，根因修复 |
 | 写 MTR 附属模组的开发者 | 一份不依赖 Gradle 的构建脚本、一个离线注入点校验器、四轮字节码审查记录 |
 
-**前置**：Minecraft 1.20.1 · Fabric Loader ≥ 0.14.0 · **MTR 4.0.4**（4.0.5 会被主动拒绝启动）。
+**前置**：Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4 之一 · Fabric（Loader ≥ 0.14.0）或 Forge · MTR 4.0.4（必须与所选 MC 版本、加载器一致；MTR 4.0.5 会被主动拒绝启动）。
 
 ---
 
 ## 五、现状与边界
 
-- 版本 **1.0.0**，只针对 **MTR 4.0.4** 的字节码做过校验；换版本必须重跑注入点校验。
+- 版本 **1.0.x**，只针对 **MTR 4.0.4** 的字节码做过校验；换版本必须重跑注入点校验。
 - **手动驾驶模式下三项功能都不参与** —— 这是明确取舍（手动是给人开的，硬夹目标速度手感很怪），
   不是漏做。详见 [已知限制与路线图](已知限制与路线图.md#1-手动驾驶完全不生效)。
 - 输入框只能填整数、界面在 GUI scale 很大时会溢出、配置没有热重载 —— 都记录在案，
@@ -153,8 +153,7 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
 - **Clean side split**: client-only mixins live in the `"client"` array, so dedicated servers never
   load any Minecraft client class.
 
-**Status**: v1.0.0, verified against MTR 4.0.4 only. Does **not** apply in manual driving mode (deliberate).
-Requires Minecraft 1.20.1, Fabric Loader ≥ 0.14.0 and MTR 4.0.4.
+**Status**: v1.0.x, Requires Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4, Fabric (Loader ≥ 0.14.0) or Forge, and MTR 4.0.4 for the same Minecraft version and loader. Install it on both client and server — the speed calculation runs server-side, the configuration UI is client-side.
 
 ---
 
