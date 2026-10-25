@@ -17,6 +17,7 @@ import org.mtr.mod.client.MinecraftClientData;
 import org.mtr.mod.InitClient;
 import org.mtr.mod.packet.PacketUpdateData;
 import org.mtr.mod.screen.SidingScreen;
+import cn.nansai.mtr4advanced.I18n;
 import org.mtr.mod.screen.WidgetShorterSlider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -42,17 +43,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SidingScreen.class)
 public class SidingScreenMixin {
 
+    // 语言键（文案见 assets/mtr4advanced/lang/*.json）
     @Unique
-    private static final String MTR4A$LABEL = "列车最高时速 km/h";
+    private static final String MTR4A$KEY_LABEL = "mtr4a.gui.max_speed";
 
     @Unique
-    private static final String MTR4A$HINT = "0 = 不限制，留空同 0";
+    private static final String MTR4A$KEY_HINT = "mtr4a.gui.max_speed.hint";
 
     @Unique
-    private static final String MTR4A$FOLLOW_LABEL = "跟随晚点浮动";
+    private static final String MTR4A$KEY_FOLLOW = "mtr4a.gui.follow_deviation";
 
     @Unique
-    private static final String MTR4A$COPY_LABEL = "复制到车场其他侧线";
+    private static final String MTR4A$KEY_COPY = "mtr4a.gui.copy_to_depot";
 
     /** 「复制到车场其他侧线」按钮宽度 */
     @Unique
@@ -134,10 +136,10 @@ public class SidingScreenMixin {
         if (mtr4a$buttonCopyToDepot == null) {
             mtr4a$buttonCopyToDepot = new ButtonWidgetExtension(
                     0, 0, MTR4A$BUTTON_WIDTH, MTR4A$ROW_HEIGHT,
-                    MTR4A$COPY_LABEL, button -> mtr4a$copyToOtherSidingsInDepot()
+                    I18n.text(MTR4A$KEY_COPY), button -> mtr4a$copyToOtherSidingsInDepot()
             );
         } else {
-            mtr4a$buttonCopyToDepot.setMessage2(Text.of(MTR4A$COPY_LABEL));
+            mtr4a$buttonCopyToDepot.setMessage2(I18n.component(MTR4A$KEY_COPY));
         }
         mtr4a$buttonCopyToDepot.setX2(MTR4A$LEFT);
         mtr4a$buttonCopyToDepot.setY2(mtr4a$row4Y(row1Y));
@@ -159,10 +161,10 @@ public class SidingScreenMixin {
         }
         final int light = GraphicsHolder.getDefaultLight();
         final int row1Y = mtr4a$row1Y();
-        graphicsHolder.drawText(MTR4A$LABEL, MTR4A$LEFT, row1Y + MTR4A$TEXT_CENTER_OFFSET, -1, false, light);
-        graphicsHolder.drawText(MTR4A$HINT, MTR4A$LEFT, mtr4a$row2Y(row1Y), -1, false, light);
+        graphicsHolder.drawText(I18n.text(MTR4A$KEY_LABEL), MTR4A$LEFT, row1Y + MTR4A$TEXT_CENTER_OFFSET, -1, false, light);
+        graphicsHolder.drawText(I18n.text(MTR4A$KEY_HINT), MTR4A$LEFT, mtr4a$row2Y(row1Y), -1, false, light);
         graphicsHolder.drawText(
-                MTR4A$FOLLOW_LABEL,
+                I18n.text(MTR4A$KEY_FOLLOW),
                 MTR4A$LEFT + 24,
                 mtr4a$row3Y(row1Y) + MTR4A$TEXT_CENTER_OFFSET,
                 -1, false, light

@@ -1,0 +1,6 @@
+{
+  "mtr4a.gui.max_speed": "列车最高时速 km/h",
+  "mtr4a.gui.max_speed.hint": "0 = 不限制，留空同 0",
+  "mtr4a.gui.follow_deviation": "跟随晚点浮动",
+  "mtr4a.gui.copy_to_depot": "复制到车场其他侧线"
+}

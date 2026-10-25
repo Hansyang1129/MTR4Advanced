@@ -16,7 +16,7 @@ MTR4 Advanced —— 离线构建脚本（Windows / Linux 通用）
     python build.py                       # 自动找上级目录里的 MTR jar
     MTR_JAR=路径 python build.py          # 手动指定 MTR jar
 产物：
-    build/libs/MTR4Advanced-1.0.2.jar
+    build/libs/MTR4Advanced-1.0.3.jar
 """
 
 import glob
@@ -37,7 +37,7 @@ BUILD = os.path.join(ROOT, "build")
 STUB_SRC = os.path.join(BUILD, "stubs", "src")
 STUB_OUT = os.path.join(BUILD, "stubs", "classes")
 CLASSES = os.path.join(BUILD, "classes")
-OUT_JAR = os.path.join(BUILD, "libs", "MTR4Advanced-1.0.2.jar")
+OUT_JAR = os.path.join(BUILD, "libs", "MTR4Advanced-1.0.3.jar")
 
 
 def find_mtr_jar():
@@ -115,7 +115,8 @@ def main():
     print("mixin   : " + MIXIN_JAR)
 
     # 逐文件删除，不用 shutil.rmtree —— 有些环境（回收站 / 安全策略）会拦掉 rmtree。
-    for path in (STUB_SRC, STUB_OUT, CLASSES, os.path.dirname(OUT_JAR)):
+    # 只清编译中间产物；产物目录绝不整体清空（否则会删掉其它版本的 jar）。
+    for path in (STUB_SRC, STUB_OUT, CLASSES):
         clean_dir(path)
     for path in (STUB_SRC, STUB_OUT, CLASSES, os.path.dirname(OUT_JAR)):
         os.makedirs(path, exist_ok=True)

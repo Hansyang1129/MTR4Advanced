@@ -1,0 +1,6 @@
+{
+  "mtr4a.gui.max_speed": "Train max speed (km/h)",
+  "mtr4a.gui.max_speed.hint": "0 = unlimited, empty means 0",
+  "mtr4a.gui.follow_deviation": "Follow delay boost",
+  "mtr4a.gui.copy_to_depot": "Copy to other sidings"
+}

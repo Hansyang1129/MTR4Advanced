@@ -192,17 +192,17 @@ MTR 原版有「晚点追赶」机制：列车晚点时把目标速度乘上 `de
 
 1. 前置：**Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4** 之一 + 对应加载器（Fabric 或 Forge）+ **MTR 4.0.4**（选对应 MC 版本、对应加载器的构建）
 2. 挑对 jar：**每个模组版本一个文件夹**（`releases/` 在仓库根，即本目录的上一级），形如
-   `../releases/1.0.2/MTR4Advanced-1.0.2-<MC版本><加载器>.jar`
-   （例：`../releases/1.0.2/MTR4Advanced-1.0.2-1.20.1Fabric.jar`）丢进 `mods` 文件夹
+   `../releases/1.0.3/MTR4Advanced-1.0.3-<MC版本><加载器>.jar`
+   （例：`../releases/1.0.3/MTR4Advanced-1.0.3-1.20.1Fabric.jar`）丢进 `mods` 文件夹
 3. 客户端和服务端都要装，**且两边用同一份**（限速计算在服务端，设置界面在客户端）
 
 | MC 版本 | Fabric | Forge |
 | --- | --- | --- |
-| 1.18.2 | `MTR4Advanced-1.0.2-1.18.2Fabric.jar` | `MTR4Advanced-1.0.2-1.18.2Forge.jar` |
-| 1.19.2 | `MTR4Advanced-1.0.2-1.19.2Fabric.jar` | `MTR4Advanced-1.0.2-1.19.2Forge.jar` |
-| 1.19.4 | `MTR4Advanced-1.0.2-1.19.4Fabric.jar` | `MTR4Advanced-1.0.2-1.19.4Forge.jar` |
-| 1.20.1 | `MTR4Advanced-1.0.2-1.20.1Fabric.jar` | `MTR4Advanced-1.0.2-1.20.1Forge.jar` |
-| 1.20.4 | `MTR4Advanced-1.0.2-1.20.4Fabric.jar` | `MTR4Advanced-1.0.2-1.20.4Forge.jar` |
+| 1.18.2 | `MTR4Advanced-1.0.3-1.18.2Fabric.jar` | `MTR4Advanced-1.0.3-1.18.2Forge.jar` |
+| 1.19.2 | `MTR4Advanced-1.0.3-1.19.2Fabric.jar` | `MTR4Advanced-1.0.3-1.19.2Forge.jar` |
+| 1.19.4 | `MTR4Advanced-1.0.3-1.19.4Fabric.jar` | `MTR4Advanced-1.0.3-1.19.4Forge.jar` |
+| 1.20.1 | `MTR4Advanced-1.0.3-1.20.1Fabric.jar` | `MTR4Advanced-1.0.3-1.20.1Forge.jar` |
+| 1.20.4 | `MTR4Advanced-1.0.3-1.20.4Fabric.jar` | `MTR4Advanced-1.0.3-1.20.4Forge.jar` |
 
 > 装错版本（例如把 1.20.1 的 jar 丢进 1.20.4）会被加载器的依赖校验直接拒绝启动，不会静默出错。
 > Forge 版的 mod id 是 `mtr4advanced`（Forge 的 modId 不允许连字符），Fabric 版是 `mtr4-advanced`。
@@ -367,9 +367,9 @@ src/main/java/cn/nansai/mtrspeed/
 
 ```bash
 # 单目标（开发）
-python build.py                                   # 产出 build/libs/MTR4Advanced-1.0.2.jar
+python build.py                                   # 产出 build/libs/MTR4Advanced-1.0.3.jar
 python tools/check_targets.py                     # 校验注入点，必须 ALL OK
-cp build/libs/MTR4Advanced-1.0.2.jar "<游戏目录>/mods/"
+cp build/libs/MTR4Advanced-1.0.3.jar "<游戏目录>/mods/"
 
 # 全矩阵（发布）：10 个目标分别编译、分别校验注入点
 python build_release.py --jars _mtr_jars --out ../releases
@@ -379,9 +379,9 @@ python build_release.py --jars _mtr_jars --out ../releases
 
 ```
 ../releases/
-└── 1.0.2/                                       ← 一个模组版本一个文件夹
-    ├── MTR4Advanced-1.0.2-1.18.2Fabric.jar      ← 5 个 MC 版本 × Fabric/Forge = 10 个 jar
-    ├── MTR4Advanced-1.0.2-1.18.2Forge.jar
+└── 1.0.3/                                       ← 一个模组版本一个文件夹
+    ├── MTR4Advanced-1.0.3-1.18.2Fabric.jar      ← 5 个 MC 版本 × Fabric/Forge = 10 个 jar
+    ├── MTR4Advanced-1.0.3-1.18.2Forge.jar
     ├── … （1.19.2 / 1.19.4 / 1.20.1 / 1.20.4 同理）
     ├── README.md       本版本每个 jar 对应什么前置
     └── SHA1SUMS.txt    本版本 10 个 jar 的 SHA-1

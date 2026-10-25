@@ -9,8 +9,8 @@
     python build_release.py --jars <MTR jar 目录> --out <输出目录>
 
 产物结构：按模组版本分文件夹（一个版本一个文件夹）
-    <输出目录>/1.0.2/MTR4Advanced-1.0.2-1.20.1Fabric.jar
-    <输出目录>/1.0.2/MTR4Advanced-1.0.2-1.20.4Forge.jar
+    <输出目录>/1.0.3/MTR4Advanced-1.0.3-1.20.1Fabric.jar
+    <输出目录>/1.0.3/MTR4Advanced-1.0.3-1.20.4Forge.jar
 
 与 build.py 的区别：
   * build.py  = 日常开发用，只针对一个 MTR jar（默认 1.20.1 Fabric）
@@ -36,7 +36,7 @@ SRC = os.path.join(ROOT, "src", "main", "java")
 RES = os.path.join(ROOT, "src", "main", "resources")
 BUILD = os.path.join(ROOT, "build", "release")
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 MOD_NAME = "MTR4 Advanced"
 MOD_AUTHOR = "nansai"
 MOD_DESCRIPTION = "MTR 附属模组：现实的列车限速控制（提速由车尾通过控制、减速由车头前瞻制动）、侧线「列车最高时速」上限，以及按列车长度推算的侧线时刻表。"
@@ -282,10 +282,16 @@ def main():
         clean_dir(work)
         os.makedirs(res_dir, exist_ok=True)
 
-        # 公共资源：mixin 配置
-        with open(os.path.join(RES, MIXIN_CONFIG), "rb") as src, \
-             open(os.path.join(res_dir, MIXIN_CONFIG), "wb") as dst:
-            dst.write(src.read())
+        # 公共资源：mixin 配置 + 语言包等（fabric.mod.json 由本脚本按平台生成，不能照抄 dev 的）
+        for dirpath, _, filenames in os.walk(RES):
+            for name in sorted(filenames):
+                if name == "fabric.mod.json":
+                    continue
+                full = os.path.join(dirpath, name)
+                target = os.path.join(res_dir, os.path.relpath(full, RES))
+                os.makedirs(os.path.dirname(target), exist_ok=True)
+                with open(full, "rb") as src, open(target, "wb") as dst:
+                    dst.write(src.read())
         if loader == "fabric":
             write_fabric_metadata(res_dir, mc)
         else:
@@ -303,7 +309,7 @@ def main():
             results.append((mc, loader, "CHECK-FAIL", None))
             continue
 
-        # 按模组版本分文件夹：releases/1.0.2/MTR4Advanced-1.0.2-1.20.1Fabric.jar
+        # 按模组版本分文件夹：releases/1.0.3/MTR4Advanced-1.0.3-1.20.1Fabric.jar
         target_dir = os.path.join(args.out, VERSION)
         os.makedirs(target_dir, exist_ok=True)
         out_jar = os.path.join(target_dir, "MTR4Advanced-%s-%s%s.jar" % (VERSION, mc, loader.capitalize()))
