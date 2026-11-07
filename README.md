@@ -1,13 +1,13 @@
 # 项目介绍
 
-> **MTR4 Advanced** 是 Minecraft Transit Railway（MTR **4.0.4**）的附属模组。
+> **MTR4 Advanced** 是 Minecraft Transit Railway（MTR **4.0.4 / 4.0.5**）的附属模组。
 > 它把列车的限速行为从「车头质点模型」改造成现实里的规则 ——
 > **整列车通过才允许提速，车头一到就开始制动** —— 并给每条侧线一个可调的列车最高时速上限。
 
 Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4 · Fabric & Forge · 客户端 + 服务端 · MIT
 
 > 📖 **完整文档在 [`mtr-train-speed/wiki/`](mtr-train-speed/wiki/Home.md)**：快速开始 · 工作原理 · 配置参考 · 侧线界面 · 构建与工具 · 开发指南 · 常见问题 · 已知限制与路线图 · 变更日志
-> 📦 **下载**：[`releases/1.0.2/`](releases/1.0.2/)（5 个 MC 版本 × Fabric/Forge 共 10 个 jar）
+> 📦 **下载**：[`releases/1.0.4/`](releases/1.0.4/)（5 个 MC 版本 × Fabric/Forge 共 10 个 jar）
 
 ## 零、声明
 
@@ -73,6 +73,9 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
 [ 复制到车场其他侧线 ]
 ```
 
+> 1.0.3 起这四行**支持中英双语**：文案走 MTR 的语言键（`mtr4a.gui.*`），随客户端语言切换，
+> 其它语言回落英文。
+
 ---
 
 ## 三、技术看点（给开发者）
@@ -85,7 +88,7 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
   宿主方法是否存在、`@At` 目标成员是否存在、以及**该调用点在宿主方法内是否恰好 1 处**。
   最后一条最关键 —— 四个 `@Redirect` 都没写 `ordinal`，全靠「调用点唯一」成立；
   MTR 改版后新增一个调用点，就会**静默改错位置**（不报错、只是限速算错）。
-  当前 18 项检查全 OK。
+  当前 18 项检查全 OK，且对 **MTR 4.0.4 与 4.0.5** 两份字节码都跑过。
 - **四轮对照字节码的代码审查。** 审查物不是源码而是 `javap -p -c` / `-l` 的反汇编结果，
   连局部变量表都拿去核对「车头里程」的坐标口径。发现并修掉的问题包括配置初始化的内存可见性
   （会导致服务端**永久**跑默认配置）、resize 后复选框丢状态、大车场发包超限整包被拒等。
@@ -97,6 +100,9 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
   所以单端安装 / 中途卸载都不会破坏存档。
 - **显式防御退化输入**：`NaN` / `Infinity` / 负值、`vehicleExtraData` 为 null、路径为空、
   车头越界、车尾还没入路径 —— 每一种都有明确回退，不猜。
+- **构建产物不落在仓库里。** `build.py` / `build_release.py` 默认把中间文件写到一个项目外的
+  构建目录（`MTR4A_BUILD_DIR` 可覆盖，缺省 `D:\wrkspce\_mtr4a-build`），不会在上传时拖进几千个
+  class / stub 文件。
 
 ---
 
@@ -109,13 +115,15 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
 | 被「列车永远晚点」折磨的服主 | 时刻表按车型长度推算，根因修复 |
 | 写 MTR 附属模组的开发者 | 一份不依赖 Gradle 的构建脚本、一个离线注入点校验器、四轮字节码审查记录 |
 
-**前置**：Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4 之一 · Fabric（Loader ≥ 0.14.0）或 Forge · MTR 4.0.4（必须与所选 MC 版本、加载器一致；MTR 4.0.5 会被主动拒绝启动）。
+**前置**：Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4 之一 · Fabric（Loader ≥ 0.14.0）或 Forge · MTR **4.0.4 或 4.0.5**（必须与所选 MC 版本、加载器一致；1.0.4 起已解除 4.0.5 的版本锁）。
 
 ---
 
 ## 五、现状与边界
 
-- 版本 **1.0.x**，只针对 **MTR 4.0.4** 的字节码做过校验；换版本必须重跑注入点校验；只在1.20.1fabric上跑过，且在轻蓝2.0服务器里已应用，若想体验，请进Q群996224093体验。
+- 版本 **1.0.4**：注入点对 **MTR 4.0.4 与 4.0.5** 都做过校验（各 18/18）；4.0.5 只是解除版本锁，功能与 1.0.3 一致。
+  换别的 MTR 版本仍必须重跑 `tools/check_targets.py --jar <新 jar>`。
+- 实机只在 **1.20.1 + Fabric** 上跑过，已在轻蓝 2.0 服务器里应用；想体验请进 Q群 **996224093**。
 - **手动驾驶模式下三项功能都不参与** —— 这是明确取舍（手动是给人开的，硬夹目标速度手感很怪），
   不是漏做。详见 [已知限制与路线图](mtr-train-speed/wiki/已知限制与路线图.md#1-手动驾驶完全不生效)。
 - 输入框只能填整数、界面在 GUI scale 很大时会溢出、配置没有热重载 —— 都记录在案，
@@ -126,7 +134,7 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
 
 ## 六、English Introduction
 
-> **MTR4 Advanced** is an addon for **Minecraft Transit Railway 4.0.4** on Minecraft
+> **MTR4 Advanced** is an addon for **Minecraft Transit Railway 4.0.4 / 4.0.5** on Minecraft
 > **1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4** (Fabric and Forge)
 > that makes train speed limits behave the way they do in reality.
 
@@ -152,12 +160,13 @@ MTR 里没有「这列车能跑多快」的概念，只有线路限速。想让�
   mapping layer (stubs never ship in the jar).
 - **Offline injection-point verification.** `tools/check_targets.py` uses `javap` to check that each
   target method exists *and* that the redirected call site occurs exactly once inside its host method —
-  the precondition for `@Redirect` without `ordinal`. 18/18 checks pass.
+  the precondition for `@Redirect` without `ordinal`. 18/18 checks pass against MTR 4.0.4 and 4.0.5.
 - **Four rounds of bytecode-level code review**, documented in `CODE_REVIEW.md`.
 - **Clean side split**: client-only mixins live in the `"client"` array, so dedicated servers never
   load any Minecraft client class.
+- **Build output stays out of the repository** (`MTR4A_BUILD_DIR`, default `D:\wrkspce\_mtr4a-build`).
 
-**Status**: v1.0.x, Requires Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4, Fabric (Loader ≥ 0.14.0) or Forge, and MTR 4.0.4 for the same Minecraft version and loader. Install it on both client and server — the speed calculation runs server-side, the configuration UI is client-side.
+**Status**: v1.0.4, Requires Minecraft 1.18.2 / 1.19.2 / 1.19.4 / 1.20.1 / 1.20.4, Fabric (Loader ≥ 0.14.0) or Forge, and MTR 4.0.4 or 4.0.5 for the same Minecraft version and loader. Install it on both client and server — the speed calculation runs server-side, the configuration UI is client-side.
 
 ---
 
