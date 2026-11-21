@@ -2,5 +2,22 @@
   "mtr4a.gui.max_speed": "Train max speed (km/h)",
   "mtr4a.gui.max_speed.hint": "0 = unlimited, empty means 0",
   "mtr4a.gui.follow_deviation": "Follow delay boost",
-  "mtr4a.gui.copy_to_depot": "Copy to other sidings"
+  "mtr4a.gui.copy_to_depot": "Copy to other sidings",
+  "mtr4a.gui.rail_speed_limit": "Speed limit",
+  "mtr4a.gui.rail_speed_value": "Speed %s km/h",
+  "mtr4a.gui.rail_speed_open": "Speed %s km/h ▾",
+  "mtr4a.gui.rail_speed_fixed": "Speed limit (fixed)",
+  "mtr4a.gui.platform_route_settings": "Per-route platform behaviour",
+  "mtr4a.gui.title_platform_route_settings": "Per-route platform behaviour (seconds, 0 = vanilla)",
+  "mtr4a.gui.door_delay": "Open delay %ss",
+  "mtr4a.gui.door_close_early": "Close early %ss",
+  "mtr4a.gui.column_route": "Route",
+  "mtr4a.gui.column_delay": "Door delay (s)",
+  "mtr4a.gui.column_early": "Close early (s)",
+  "mtr4a.gui.column_technical": "Tech stop",
+  "mtr4a.gui.technical_stop_yes": "Tech stop: yes",
+  "mtr4a.gui.technical_stop_no": "Tech stop: no",
+  "mtr4a.gui.yes": "yes",
+  "mtr4a.gui.no": "no",
+  "mtr4a.gui.no_routes": "No route stops at this platform yet"
 }

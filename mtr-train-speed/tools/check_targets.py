@@ -10,7 +10,7 @@
 
 用法：
     python tools/check_targets.py
-    python tools/check_targets.py --jar 路径/到/MTR.jar --classes build/classes
+    python tools/check_targets.py --jar 路径/到/MTR.jar --classes <构建目录>/dev/classes
 """
 
 import argparse
@@ -29,6 +29,15 @@ MIXIN_TARGETS = {
     "cn.nansai.mtr4advanced.mixin.SidingSchemaMixin": "org.mtr.core.generated.data.SidingSchema",
     "cn.nansai.mtr4advanced.mixin.SidingTimeSegmentsMixin": "org.mtr.core.data.Siding",
     "cn.nansai.mtr4advanced.mixin.VehicleSpeedMixin": "org.mtr.core.data.Vehicle",
+    "cn.nansai.mtr4advanced.mixin.RailMixin": "org.mtr.core.data.Rail",
+    "cn.nansai.mtr4advanced.mixin.RoutePlatformDataMixin": "org.mtr.core.data.RoutePlatformData",
+    "cn.nansai.mtr4advanced.mixin.RoutePlatformDataSchemaMixin": "org.mtr.core.generated.data.RoutePlatformDataSchema",
+    "cn.nansai.mtr4advanced.mixin.RouteSchemaMixin": "org.mtr.core.generated.data.RouteSchema",
+    "cn.nansai.mtr4advanced.mixin.VehicleDoorMixin": "org.mtr.core.data.Vehicle",
+    "cn.nansai.mtr4advanced.mixin.access.RoutePlatformDataSchemaAccess": "org.mtr.core.generated.data.RoutePlatformDataSchema",
+    "cn.nansai.mtr4advanced.mixin.access.VehicleExtraDataAccess": "org.mtr.core.data.VehicleExtraData",
+    "cn.nansai.mtr4advanced.mixin.client.PlatformScreenMixin": "org.mtr.mod.screen.PlatformScreen",
+    "cn.nansai.mtr4advanced.mixin.client.RailModifierScreenMixin": "org.mtr.mod.screen.RailModifierScreen",
     "cn.nansai.mtr4advanced.mixin.client.SidingScreenMixin": "org.mtr.mod.screen.SidingScreen",
     "cn.nansai.mtr4advanced.mixin.access.VehicleAccess": "org.mtr.core.data.Vehicle",
     "cn.nansai.mtr4advanced.mixin.access.VehicleSchemaAccess": "org.mtr.core.generated.data.VehicleSchema",
@@ -98,10 +107,24 @@ def members(exe, jar, fqcn):
         return sig_cache[fqcn]
     result = javap(exe, "-p", "-classpath", jar, fqcn)
     found = set()
+    simple = fqcn.rsplit(".", 1)[-1]
     for raw in result.stdout.splitlines():
         line = raw.strip().rstrip(";")
+        # 构造器没有返回类型：javap 打印成 "private org.mtr.core.data.Rail(...)"
+        ctor = re.match(r"^(?:public|private|protected|static|final|\s)*\s*([\w.$]+)\((.*)\)$", line)
+        if ctor and ctor.group(1) == fqcn:
+            params = re.sub(r"<[^<>]*>", "", ctor.group(2)).strip()
+            found.add("<init>(params=%d)" % (0 if not params else len(params.split(","))))
+            found.add("<init>(" + ctor.group(2) + ")")
+            continue
         m = re.match(r"^(?:public|private|protected|static|final|abstract|\s)*\s*(.+?)\s+(\w+)\((.*)\)$", line)
         if m:
+            # javap 把构造器写成 "类名(...)"；mixin 注解里写的是 "<init>(...)"
+            # 参数表里带泛型/空格，和 JVM 描述符没法直接比，所以另记一个「参数个数」键
+            if m.group(2) == simple:
+                params = re.sub(r"<[^<>]*>", "", m.group(3)).strip()
+                found.add("<init>(params=%d)" % (0 if not params else len(params.split(","))))
+                found.add("<init>(" + m.group(3) + ")")
             found.add(m.group(2) + "(" + m.group(3) + ")")
             continue
         m = re.match(r"^(?:public|private|protected|static|final|\s)*\s*([\w.\[\]<>]+)\s+(\w+)$", line)
@@ -109,6 +132,23 @@ def members(exe, jar, fqcn):
             found.add(m.group(2))
     sig_cache[fqcn] = found
     return found
+
+
+def descriptor_param_count(desc):
+    """JVM 方法描述符里的参数个数：L...; 记 1，基本类型/数组各记 1"""
+    count = 0
+    i = 0
+    while i < len(desc):
+        c = desc[i]
+        if c == "L":
+            i = desc.index(";", i) + 1
+            count += 1
+        elif c == "[":
+            i += 1
+        else:
+            i += 1
+            count += 1
+    return count
 
 
 def strip_value(value):
@@ -179,7 +219,12 @@ def main():
                 if line.startswith("method="):
                     method = strip_value(line.split("=", 1)[1])
                     host_method = method
-                    hit = any(x.startswith(method + "(") for x in members(args.javap, jar, target))
+                    if method.startswith("<init>("):
+                        # 构造器：按参数个数比对（描述符与 javap 的参数表格式不同）
+                        want = descriptor_param_count(method[method.find("(") + 1:method.rfind(")")])
+                        hit = ("<init>(params=%d)" % want) in members(args.javap, jar, target)
+                    else:
+                        hit = any(x.startswith(method + "(") for x in members(args.javap, jar, target))
                     checked += 1
                     ok = ok and hit
                     print("  %s  %s -> %s#%s" % ("OK  " if hit else "MISS", fq, target, method))

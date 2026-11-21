@@ -2,5 +2,22 @@
   "mtr4a.gui.max_speed": "列车最高时速 km/h",
   "mtr4a.gui.max_speed.hint": "0 = 不限制，留空同 0",
   "mtr4a.gui.follow_deviation": "跟随晚点浮动",
-  "mtr4a.gui.copy_to_depot": "复制到车场其他侧线"
+  "mtr4a.gui.copy_to_depot": "复制到车场其他侧线",
+  "mtr4a.gui.rail_speed_limit": "限速",
+  "mtr4a.gui.rail_speed_value": "限速 %s km/h",
+  "mtr4a.gui.rail_speed_open": "限速 %s km/h ▾",
+  "mtr4a.gui.rail_speed_fixed": "限速（不可改）",
+  "mtr4a.gui.platform_route_settings": "交路站台行为",
+  "mtr4a.gui.title_platform_route_settings": "交路站台行为（按交路区分，单位秒，0 = 原版）",
+  "mtr4a.gui.door_delay": "延迟开门 %ss",
+  "mtr4a.gui.door_close_early": "提前关门 %ss",
+  "mtr4a.gui.column_route": "交路",
+  "mtr4a.gui.column_delay": "延迟开门(秒)",
+  "mtr4a.gui.column_early": "提前关门(秒)",
+  "mtr4a.gui.column_technical": "技术停车",
+  "mtr4a.gui.technical_stop_yes": "技停 是",
+  "mtr4a.gui.technical_stop_no": "技停 否",
+  "mtr4a.gui.yes": "是",
+  "mtr4a.gui.no": "否",
+  "mtr4a.gui.no_routes": "还没有交路停靠这个站台"
 }

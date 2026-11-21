@@ -7,11 +7,20 @@
     "SidingMixin",
     "SidingSchemaMixin",
     "SidingTimeSegmentsMixin",
+    "RailMixin",
+    "RoutePlatformDataMixin",
+    "RoutePlatformDataSchemaMixin",
+    "RouteSchemaMixin",
+    "VehicleDoorMixin",
     "VehicleSpeedMixin",
+    "access.RoutePlatformDataSchemaAccess",
+    "access.VehicleExtraDataAccess",
     "access.VehicleAccess",
     "access.VehicleSchemaAccess"
   ],
   "client": [
+    "client.PlatformScreenMixin",
+    "client.RailModifierScreenMixin",
     "client.SidingScreenMixin",
     "access.SavedRailScreenBaseAccess"
   ],
