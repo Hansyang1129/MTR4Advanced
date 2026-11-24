@@ -38,7 +38,7 @@ RES = os.path.join(ROOT, "src", "main", "resources")
 BUILD_ROOT = os.environ.get("MTR4A_BUILD_DIR", r"D:\wrkspce\_mtr4a-build")
 BUILD = os.path.join(BUILD_ROOT, "release")
 
-VERSION = "1.1.0"
+VERSION = "1.1.1"
 MOD_NAME = "MTR4 Advanced"
 MOD_AUTHOR = "nansai"
 MOD_DESCRIPTION = "MTR 附属模组：现实的列车限速控制（提速由车尾通过控制、减速由车头前瞻制动）、侧线「列车最高时速」上限，以及按列车长度推算的侧线时刻表。"

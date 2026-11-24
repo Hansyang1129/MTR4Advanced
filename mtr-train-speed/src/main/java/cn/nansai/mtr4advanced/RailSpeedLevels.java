@@ -17,9 +17,20 @@ public final class RailSpeedLevels {
 	private RailSpeedLevels() {
 	}
 
-	/** 设置一次覆盖：oneWay 为 true 时正向(0)保持 0，只改反向。 */
-	public static void set(int level, boolean oneWay) {
-		OVERRIDE.set(oneWay ? new int[]{0, level} : new int[]{level, level});
+	/**
+	 * 设置一次覆盖，<b>保留原始字段里 0 的位置</b>（0 = 单向的标志，不能动）：
+	 * raw1 == 0 → 只改 raw2；raw2 == 0 → 只改 raw1；都不是 0 → 两个都改。
+	 */
+	public static void setPreserving(long rawSpeedLimit1, long rawSpeedLimit2, int level) {
+		if (rawSpeedLimit1 == 0L && rawSpeedLimit2 == 0L) {
+			OVERRIDE.set(new int[]{level, level});
+		} else if (rawSpeedLimit1 == 0L) {
+			OVERRIDE.set(new int[]{0, level});
+		} else if (rawSpeedLimit2 == 0L) {
+			OVERRIDE.set(new int[]{level, 0});
+		} else {
+			OVERRIDE.set(new int[]{level, level});
+		}
 	}
 
 	public static void clear() {

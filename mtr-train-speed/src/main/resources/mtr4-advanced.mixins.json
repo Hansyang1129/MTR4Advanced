@@ -13,6 +13,7 @@
     "RouteSchemaMixin",
     "VehicleDoorMixin",
     "VehicleSpeedMixin",
+    "access.RailSchemaAccess",
     "access.RoutePlatformDataSchemaAccess",
     "access.VehicleExtraDataAccess",
     "access.VehicleAccess",

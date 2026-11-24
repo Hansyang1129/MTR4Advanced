@@ -201,8 +201,9 @@ public class RailModifierScreenMixin {
 			mtr4a$refresh();
 			mtr4a$layout();
 
-			final boolean oneWay = rail.getSpeedLimitKilometersPerHour(false) == 0;
-			RailSpeedLevels.set(level, oneWay);
+			// 必须用原始字段判断单向：getSpeedLimitKilometersPerHour 会按 reversePositions 翻转
+			final cn.nansai.mtr4advanced.mixin.access.RailSchemaAccess access = (cn.nansai.mtr4advanced.mixin.access.RailSchemaAccess) (Object) rail;
+			RailSpeedLevels.setPreserving(access.mtr4a$getRawSpeedLimit1(), access.mtr4a$getRawSpeedLimit2(), level);
 			try {
 				final Rail newRail = Rail.copy(rail, rail.railMath.getShape(), rail.railMath.getVerticalRadius());
 				org.mtr.mod.InitClient.REGISTRY_CLIENT.sendPacketToServer(new PacketUpdateData(new UpdateDataRequest(MinecraftClientData.getInstance()).addRail(newRail)));

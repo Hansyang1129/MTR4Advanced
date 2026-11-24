@@ -34,6 +34,7 @@ MIXIN_TARGETS = {
     "cn.nansai.mtr4advanced.mixin.RoutePlatformDataSchemaMixin": "org.mtr.core.generated.data.RoutePlatformDataSchema",
     "cn.nansai.mtr4advanced.mixin.RouteSchemaMixin": "org.mtr.core.generated.data.RouteSchema",
     "cn.nansai.mtr4advanced.mixin.VehicleDoorMixin": "org.mtr.core.data.Vehicle",
+    "cn.nansai.mtr4advanced.mixin.access.RailSchemaAccess": "org.mtr.core.generated.data.RailSchema",
     "cn.nansai.mtr4advanced.mixin.access.RoutePlatformDataSchemaAccess": "org.mtr.core.generated.data.RoutePlatformDataSchema",
     "cn.nansai.mtr4advanced.mixin.access.VehicleExtraDataAccess": "org.mtr.core.data.VehicleExtraData",
     "cn.nansai.mtr4advanced.mixin.client.PlatformScreenMixin": "org.mtr.mod.screen.PlatformScreen",
